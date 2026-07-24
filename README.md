@@ -30,7 +30,6 @@ Each chapter follows the same structure:
 - 🧠 Why this feature exists
 - ⚙️ Internal implementation
 - 🧪 Hands-on experiments
-- ✅ Unit tests
 - 📝 Engineering notes
 - 📚 References
 
