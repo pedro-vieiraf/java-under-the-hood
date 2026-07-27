@@ -196,12 +196,13 @@ Both variables point to the same object in the heap.
 
 ## Experiments
 
-## Experiment 01 - Primitive Value Copying
-
 ### Location:
 ```
 src/main/java/com/pedrovieira/javaunderhood/chapters/chapter01/memory
 ```
+
+## Experiment 01 - Primitive Value Copying
+
 
 ### Purpose:
 Observe how primitive values behave when assigned to another variable.
