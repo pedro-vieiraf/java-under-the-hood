@@ -215,11 +215,6 @@ public static void main(String[] args) {
 
 # Experiments
 
-### Location
-```
-src/main/java/com/pedrovieira/javaunderhood/chapters/chapter02/startup
-```
-
 ## Experiment 01 - Java Compilation
 
 ### Location
@@ -241,10 +236,8 @@ SimpleApplication.java
 
 From the `src/main/java` directory, compile the Java source file:
 
-Compile the Java source file:
-
 ```bash
-javac com/pedrovieira/javaunderhood/chapters/chapter02/startup/compilation/SimpleApplication.java
+javac com/pedrovieira/javaunderhood/chapters/chapter02/startup/compilation/SimpleApplication
 ```
 After compilation, a new `.class` file should be generated:
 
@@ -253,7 +246,7 @@ SimpleApplication.class
 ```
 Execute the compiled Java application:
 ```bash
-java com/pedrovieira/javaunderhood/chapters/chapter02/startup/compilation/SimpleApplication.java
+java com/pedrovieira/javaunderhood/chapters/chapter02/startup/compilation/SimpleApplication
 ```
 
 Expected output:
@@ -292,7 +285,6 @@ BytecodeExample.java
 
 From the `src/main/java` directory, compile the Java source file:
 
-Compile the Java source file:
 ```bash
 javac javac com/pedrovieira/javaunderhood/chapters/chapter02/startup/bytecode/BytecodeExample.java
 ```
@@ -323,8 +315,7 @@ src/main/java/com/pedrovieira/javaunderhood/chapters/chapter02/startup/initializ
 
 ### Purpose
 
-Observe when class initialization occurs and understand how the JVM executes static initialization blocks.
-
+Observe when class initialization occurs and understand how the JVM initializes static fields and executes static initialization blocks.
 
 ### Implementation
 
@@ -425,8 +416,7 @@ src/main/java/com/pedrovieira/javaunderhood/chapters/chapter02/startup/sequence
 
 ### Purpose
 
-Connect all previous concepts and understand the execution lifecycle of a Java application from JVM startup until the `main()` method execution.
-
+Connect all previous concepts by observing the complete startup sequence of a Java application.
 
 ### Implementation
 
@@ -502,7 +492,7 @@ Application initialized
 
 ### Results
 
-> Static initialization occurs when the JVM initializes a class during runtime.
+> Class initialization is performed once by the JVM before the class is first actively used.
 >
 > Static fields and static blocks are executed only once, during class initialization.
 >
@@ -542,7 +532,7 @@ Application initialized
 >
 > The `main()` method is not the first code executed by the JVM. Class loading and initialization happen before the application entry point starts.
 >
-> Object creation happens after `main()` begins execution, triggering instance initialization blocks and constructors.
+> The application startup consists of multiple JVM-managed phases that occur before any user-defined object is created.
 >
 > The experiment connects compilation, class loading, initialization, and execution into a single JVM startup lifecycle.
 
@@ -553,7 +543,7 @@ Application initialized
 After completing this chapter, the main concepts understood should be:
 
 - Java applications execute bytecode, not source code;
-- The JVM performs several steps before invoking `main()`;
+- The JVM performs class loading, linking and initialization before invoking `main()`;
 - Classes must be loaded, linked, and initialized before execution;
 - Static initialization occurs only once for each loaded class;
 - The startup sequence provides the foundation for understanding JVM internals.
@@ -575,8 +565,8 @@ This chapter prepares the foundation for:
 
 ## References
 
-- Java Virtual Machine Specification (JVMS)
 - Java Language Specification (JLS)
+- Java Virtual Machine Specification (JVMS)
 - Oracle Java Documentation
 - Inside the Java Virtual Machine — Bill Venners
 - The Java® Virtual Machine Specification — Oracle
