@@ -46,6 +46,8 @@ The main concepts explored in this chapter are:
 - Class visibility;
 - Runtime class discovery.
 
+---
+
 ## Class Loader Hierarchy
 
 The JVM organizes Class Loaders in a parent-child hierarchy.
@@ -183,15 +185,13 @@ Class Request
         ↓
 Parent Delegation
         ↓
-Bootstrap / Platform / Application Class Loader
-        ↓
-Loading
+Class Loading
         ↓
 Linking
         ↓
 Initialization
         ↓
-Class Ready for Execution
+Class Ready for Use
 ```
 
 ---
@@ -284,105 +284,136 @@ After completing this experiment, the following observations can be made:
 > The Parent Delegation Model provides consistency, reliability, and security throughout the JVM.
 ---
 
-## Experiment 03 - Parent Delegation Model
+## Experiment 03 - Loading JDK and Application Classes
+
+### Location
+
+```text
+src/main/java/com/pedrovieira/javaunderhood/chapters/chapter03/classloaders/loading
+```
 
 ### Purpose
 
-Observe how Class Loaders delegate class loading requests.
+Observe how different types of classes are ultimately loaded by different Class Loaders after the Parent Delegation Model has been applied.
+
+This experiment compares application classes and JDK classes to identify which Class Loader is responsible for each one.
 
 ### Implementation
 
+```text
+ClassLoadingComparisonExperiment.java
 ```
-ParentDelegationExperiment.java
-```
 
-### Questions
+### What to Observe
 
-- Which Class Loader receives the request first?
-- How does delegation prevent duplicate loading?
-- What happens when the parent cannot locate a class?
+During the execution, pay attention to:
 
+- Which Class Loader loaded the application class;
+- Which Class Loader loaded core JDK classes such as `String` and `ArrayList`;
+- How the final Class Loader differs depending on the origin of the class;
+- How the observed results relate to the Parent Delegation Model.
+
+### Conclusion
+
+After completing this experiment, the following observations can be made:
+
+> Application classes are ultimately loaded by the **Application Class Loader**.
+>
+> Core JDK classes are ultimately loaded by the **Bootstrap Class Loader**.
+>
+> Although every request starts from the Application Class Loader, the Parent Delegation Model determines which Class Loader is actually responsible for loading each class.
+>
+> The JVM uses different Class Loaders to separate application code from platform code, improving consistency, isolation, and security.
 ---
 
 ## Experiment 04 - Dynamic Class Loading
 
+### Location
+
+```text
+src/main/java/com/pedrovieira/javaunderhood/chapters/chapter03/classloaders/dynamic
+```
+
 ### Purpose
 
-Observe how classes can be loaded dynamically during runtime.
+Understand how classes can be loaded dynamically during application execution.
+
+Unlike previous experiments, where classes were loaded automatically by the JVM, this experiment demonstrates how a class can be requested explicitly at runtime using the Reflection API.
 
 ### Implementation
 
-```
+```text
 DynamicLoadingExperiment.java
+Plugin.java
 ```
 
-### Questions
+### What to Observe
 
-- What happens when using `Class.forName()`?
-- Does loading always initialize the class?
-- Which Class Loader performs the loading?
+During the execution, pay attention to:
+
+- When the requested class is loaded;
+- Whether loading also initializes the class;
+- Which Class Loader performs the loading;
+- How `Class.forName()` differs from ordinary class references.
+
+### Conclusion
+
+After completing this experiment, the following observations can be made:
+
+> Classes can be requested dynamically during runtime using `Class.forName()`.
+>
+> By default, `Class.forName()` loads and initializes the requested class.
+>
+> Dynamic loading still follows the Parent Delegation Model, allowing the appropriate Class Loader to perform the loading.
+>
+> Dynamic class loading is one of the mechanisms that enables reflection, plugin systems, dependency injection frameworks, and many other advanced Java technologies.
 
 ---
 
 ## Experiment 05 - Complete Class Loading Flow
 
+### Location
+
+```text
+src/main/java/com/pedrovieira/javaunderhood/chapters/chapter03/classloaders/flow
+```
+
 ### Purpose
 
-Connect all previous concepts by observing the complete Class Loading process.
+Connect all previous concepts by observing the complete lifecycle of a class inside the JVM.
+
+This experiment demonstrates how a class progresses from being requested by the application to becoming fully initialized and ready for use.
 
 ### Implementation
 
-```
+```text
 CompleteClassLoadingExperiment.java
+DemoClass.java
 ```
 
-### Questions
+### What to Observe
 
-- What is the complete loading sequence?
-- Which Class Loaders participate?
-- How does loading connect with linking and initialization?
+During the execution, pay attention to:
 
----
+- When the class is requested by the application;
+- Where the linking phase fits into the overall loading lifecycle;
+- When the class is linked;
+- When static initialization occurs;
+- When the class becomes available for normal use.
 
-## Findings
+### Conclusion
 
-### Experiment 01
+After completing this experiment, the following observations can be made:
 
-### Results
-
-> To be completed after implementation.
-
----
-
-### Experiment 02
-
-### Results
-
-> To be completed after implementation.
-
----
-
-### Experiment 03
-
-### Results
-
-> To be completed after implementation.
-
----
-
-### Experiment 04
-
-### Results
-
-> To be completed after implementation.
-
----
-
-### Experiment 05
-
-### Results
-
-> To be completed after implementation.
+> Class loading is a multi-stage process rather than a single operation.
+>
+> Before a class can be used, the JVM loads, links, and initializes it.
+> 
+> The linking phase happens internally inside the JVM and is not directly observable through Java code.
+>
+> Static fields and static initialization blocks execute during the initialization phase.
+>
+> Once initialization is complete, the class is ready for normal execution by the application.
 
 ---
 
@@ -396,6 +427,7 @@ After completing this chapter, the main concepts understood should be:
 - Java follows the Parent Delegation Model to ensure consistency and security;
 - Classes can be loaded dynamically during runtime;
 - Class loading is the first step before linking and initialization.
+- Loading, linking, and initialization together prepare classes for execution by the JVM.
 
 ---
 
@@ -403,18 +435,10 @@ After completing this chapter, the main concepts understood should be:
 
 This chapter prepares the foundation for:
 
-- JVM Class Structure;
+- JVM Class File Structure;
+- Constant Pool;
 - Class Metadata;
 - Reflection;
 - Dynamic Proxies;
 - Java Modules;
 - JVM Internals.
-
----
-
-## References
-
-- Java Virtual Machine Specification (JVMS)
-- Java Language Specification (JLS)
-- Oracle Java Documentation
-- Inside the Java Virtual Machine — Bill Venners
