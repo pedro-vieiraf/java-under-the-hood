@@ -219,33 +219,69 @@ This experiment explores the Class Loader hierarchy and identifies which loader 
 ClassLoaderHierarchyExperiment.java
 ```
 
-### Questions
+### What to Observe
 
-- Which Class Loader loads application classes?
-- What is the hierarchy of Java Class Loaders?
-- Which Class Loader loads JDK classes such as `String` and `ArrayList`?
-- Why does the Bootstrap Class Loader appear as `null`?
+During the execution, pay attention to:
+
+- Which Class Loader loads the application class;
+- Which Class Loader loads JDK classes such as `String` and `ArrayList`;
+- The parent relationship between the Class Loaders;
+- Why the Bootstrap Class Loader appears as `null`.
+
+### Conclusion
+
+After completing this experiment, the following observations can be made:
+
+> The application class was loaded by the **Application Class Loader**.
+>
+> The Application Class Loader delegates requests to the **Platform Class Loader**, which in turn delegates to the **Bootstrap Class Loader**.
+>
+> The Bootstrap Class Loader appears as `null` because it is implemented inside the JVM and is not represented as a regular Java object.
+>
+> Core JDK classes such as `String` and `ArrayList` are loaded by the Bootstrap Class Loader.
 
 ---
 
-## Experiment 02 - Loading JDK and Application Classes
+## Experiment 02 - Parent Delegation Model
+
+### Location
+
+```text
+src/main/java/com/pedrovieira/javaunderhood/chapters/chapter03/classloaders/delegation
+```
 
 ### Purpose
 
-Compare how the JVM loads JDK classes and application classes.
+Understand how the JVM uses the Parent Delegation Model when a Class Loader receives a request to load a class.
+
+Instead of loading classes immediately, each Class Loader first delegates the request to its parent. Only if the parent cannot locate the class does the current Class Loader attempt to load it.
 
 ### Implementation
 
+```text
+ParentDelegationExperiment.java
 ```
-ClassLoaderComparisonExperiment.java
-```
 
-### Questions
+### What to Observe
 
-- Which Class Loader loads `String`?
-- Which Class Loader loads application classes?
-- Why are different Class Loaders involved?
+During the execution, pay attention to:
 
+- Which Class Loader receives the initial request;
+- Whether the Application Class Loader immediately loads the requested class;
+- How the parent-child delegation hierarchy works;
+- Why delegation prevents duplicate loading of core Java classes.
+
+### Conclusion
+
+After completing this experiment, the following observations can be made:
+
+> Class Loaders do not immediately attempt to load every requested class.
+>
+> Each Class Loader first delegates the request to its parent before trying to load the class itself.
+>
+> This delegation mechanism ensures that core Java classes are loaded only once by the Bootstrap Class Loader.
+>
+> The Parent Delegation Model provides consistency, reliability, and security throughout the JVM.
 ---
 
 ## Experiment 03 - Parent Delegation Model
